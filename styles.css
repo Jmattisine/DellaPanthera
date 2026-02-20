@@ -506,4 +506,53 @@ body {
   #print-area * {
     box-shadow: none !important;
   }
+  /* ============================ FIX MOBILE / TABLET ============================ */
+
+/* Evita scroll horizontal por overflow */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Si en algún punto agregas imágenes reales */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Header adaptable */
+@media (max-width: 600px) {
+  .main-header {
+    flex-wrap: wrap;              /* CLAVE: permite 2 líneas */
+    gap: 0.5rem;
+    padding: 0.6rem 0.75rem;
+  }
+
+  /* Que los bloques del header no obliguen a ancho fijo */
+  .header-left,
+  .header-nav,
+  .header-actions {
+    min-width: 0;
+    flex-wrap: wrap;
+  }
+
+  /* Nav y acciones pasan a “fila centrada” y ocupan el ancho */
+  .header-nav,
+  .header-actions {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Botones más compactos en móvil */
+  .btn,
+  .btn-nav {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  /* Logo más compacto */
+  .logo-text {
+    font-size: 0.95rem;
+  }
+}
 }
