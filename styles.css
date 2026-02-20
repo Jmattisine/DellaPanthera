@@ -1,0 +1,509 @@
+/* ========================================
+   RESET BÁSICO
+======================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
+  background: #f3f4f6;
+  color: #111827;
+}
+
+/* Contenedor principal */
+#app {
+  min-height: 100vh;
+}
+
+/* Utilidades */
+.oculto {
+  display: none !important;
+}
+
+.vista-activa {
+  display: block;
+}
+
+.vista-interna {
+  display: none;
+}
+
+.vista-interna-activa {
+  display: block;
+}
+
+/* ========================================
+   LOGIN
+======================================== */
+#login-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.login-card {
+  background: #ffffff;
+  padding: 2.5rem 2rem;
+  max-width: 400px;
+  width: 100%;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
+  text-align: center;
+}
+
+.logo-titulo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #7c2d12;
+}
+
+.login-subtitulo {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+}
+
+.login-form {
+  text-align: left;
+}
+
+.form-grupo {
+  margin-bottom: 1rem;
+}
+
+.form-grupo label {
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+  color: #374151;
+}
+
+.form-grupo input {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-grupo input:focus {
+  border-color: #7c2d12;
+  box-shadow: 0 0 0 2px rgba(124, 45, 18, 0.15);
+}
+
+.mensaje-error {
+  margin-top: 1rem;
+  color: #b91c1c;
+  font-size: 0.9rem;
+}
+
+/* ========================================
+   BOTONES
+======================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease,
+    box-shadow 0.15s ease, transform 0.05s ease;
+  gap: 0.25rem;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primario {
+  background: #7c2d12;
+  color: #ffffff;
+  box-shadow: 0 5px 12px rgba(124, 45, 18, 0.35);
+}
+
+.btn-primario:hover {
+  background: #9a3412;
+}
+
+.btn-secundario {
+  background: #f97316;
+  color: #111827;
+}
+
+.btn-secundario:hover {
+  background: #fb923c;
+}
+
+.btn-outline {
+  background: transparent;
+  color: #374151;
+  border: 1px solid #9ca3af;
+}
+
+.btn-outline:hover {
+  background: #e5e7eb;
+}
+
+/* Botones de navegación en header */
+.btn-nav {
+  background: transparent;
+  border: none;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: #4b5563;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.btn-nav-activo {
+  background: #7c2d12;
+  color: #ffffff;
+}
+
+/* ========================================
+   HEADER PRINCIPAL
+======================================== */
+.main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #111827;
+  color: #f9fafb;
+  padding: 0.7rem 1rem;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.4);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo-header {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.logo-icon {
+  font-size: 1.2rem;
+}
+
+.logo-text {
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ========================================
+   LAYOUT PRINCIPAL
+======================================== */
+#main-section {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  padding: 1rem;
+}
+
+/* ============================
+   PUNTO DE VENTA
+============================ */
+.pos-container {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.6fr);
+  gap: 1rem;
+}
+
+.panel {
+  background: #ffffff;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+.panel h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+  color: #111827;
+}
+
+/* Filtros de categoría */
+.filtros-categorias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.btn-cat {
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  padding: 0.35rem 0.8rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  background: #f9fafb;
+  color: #374151;
+  transition: background-color 0.15s ease, color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.btn-cat.activo {
+  background: #7c2d12;
+  color: #ffffff;
+  border-color: #7c2d12;
+}
+
+/* Lista de productos */
+.lista-productos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 0.5rem;
+  max-height: 65vh;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.producto-item {
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  padding: 0.5rem;
+  font-size: 0.85rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease,
+    transform 0.05s ease;
+  word-break: break-word;
+}
+
+.producto-item:hover {
+  background: #fef3c7;
+  box-shadow: 0 4px 8px rgba(251, 191, 36, 0.35);
+}
+
+.producto-item:active {
+  transform: scale(0.97);
+}
+
+/* Panel comanda */
+.panel-comanda {
+  display: flex;
+  flex-direction: column;
+}
+
+.comanda-contenido {
+  flex: 1;
+  overflow: auto;
+  margin-bottom: 0.75rem;
+}
+
+/* Tablas */
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.tabla thead {
+  background: #f3f4f6;
+}
+
+.tabla th,
+.tabla td {
+  padding: 0.4rem 0.35rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.tabla th {
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.tabla tfoot td {
+  border-top: 2px solid #111827;
+  font-size: 0.95rem;
+}
+
+.texto-derecha {
+  text-align: right;
+}
+
+.comanda-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+/* Botón de eliminar fila en comanda */
+.btn-eliminar {
+  background: transparent;
+  border: none;
+  color: #b91c1c;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+/* ============================
+   REPORTES DIARIOS
+============================ */
+.reportes-container {
+  background: #ffffff;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  max-width: 900px;
+}
+
+.reportes-container h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+}
+
+.reportes-filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+
+.reportes-filtros .form-grupo {
+  margin-bottom: 0;
+}
+
+.reportes-filtros input[type="date"] {
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  font-size: 0.9rem;
+}
+
+.reporte-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.reporte-tabla-wrapper {
+  max-height: 60vh;
+  overflow: auto;
+}
+
+/* ========================================
+   PRINT AREA
+======================================== */
+#print-area {
+  background: #ffffff;
+  color: #000000;
+  padding: 1rem;
+}
+
+.print-titulo {
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.print-subtitulo {
+  font-size: 0.9rem;
+  text-align: center;
+  margin-bottom: 0.75rem;
+}
+
+.print-detalle {
+  font-size: 0.85rem;
+}
+
+.print-detalle table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.print-detalle th,
+.print-detalle td {
+  padding: 0.3rem;
+  border-bottom: 1px solid #d1d5db;
+}
+
+.print-total {
+  margin-top: 0.6rem;
+  text-align: right;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+/* ========================================
+   MEDIA QUERIES
+======================================== */
+@media (max-width: 900px) {
+  .pos-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========================================
+   ESTILOS DE IMPRESIÓN
+   - Solo mostrar #print-area
+======================================== */
+@media print {
+  body {
+    background: #ffffff !important;
+  }
+
+  #login-section,
+  .main-header,
+  .main-content,
+  #app > *:not(#print-area) {
+    display: none !important;
+  }
+
+  #print-area {
+    display: block !important;
+    padding: 0;
+    margin: 0;
+  }
+
+  #print-area * {
+    box-shadow: none !important;
+  }
+}

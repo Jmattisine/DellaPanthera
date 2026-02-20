@@ -1,0 +1,16 @@
+{
+  "name": "coffeavorous-pos",
+  "version": "1.0.0",
+  "description": "Punto de venta Coffeavorous con reporte diario por correo",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "nodemailer": "^6.9.13"
+  }
+}

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coffeavorous - Punto de Venta</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- ============================================
+       CONTENEDOR GENERAL
+  ============================================= -->
+  <div id="app">
+
+    <!-- ============================================
+         SECCIÓN LOGIN
+    ============================================= -->
+    <section id="login-section" class="vista-activa">
+      <div class="login-card">
+        <h1 class="logo-titulo">Della Panthera</h1>
+        <p class="login-subtitulo">Acceso al punto de venta</p>
+
+        <form id="login-form" class="login-form">
+          <div class="form-grupo">
+            <label for="username">Usuario</label>
+            <input type="text" id="username" autocomplete="username" required />
+          </div>
+
+          <div class="form-grupo">
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" autocomplete="current-password" required />
+          </div>
+
+          <button type="submit" class="btn btn-primario">Ingresar</button>
+        </form>
+
+        <p id="login-error" class="mensaje-error" hidden>
+          Usuario o contraseña incorrectos.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SECCIÓN PRINCIPAL POS
+    ============================================= -->
+    <section id="main-section" class="oculto">
+      <!-- ============ HEADER ============ -->
+      <header class="main-header">
+        <div class="header-left">
+          <div class="logo-header">
+            <span class="logo-icon">☕</span>
+            <span class="logo-text">Della Panthera</span>
+          </div>
+        </div>
+
+        <nav class="header-nav">
+          <button id="nav-pos" class="btn-nav btn-nav-activo" data-view="pos">
+            Punto de venta
+          </button>
+          <button id="nav-reportes" class="btn-nav" data-view="reportes">
+            Reportes diarios
+          </button>
+        </nav>
+
+        <div class="header-actions">
+          <!-- Botón Cerrar día -->
+          <button id="btn-cerrar-dia" class="btn btn-secundario">
+            Cerrar día
+          </button>
+
+          <button id="btn-logout" class="btn btn-outline">
+            Cerrar sesión
+          </button>
+        </div>
+      </header>
+
+      <!-- ============ CONTENIDO PRINCIPAL ============ -->
+      <main class="main-content">
+        <!-- ============================
+             VISTA: PUNTO DE VENTA
+        ============================= -->
+        <section id="vista-pos" class="vista-interna vista-interna-activa">
+          <div class="pos-container">
+            <!-- Panel de productos -->
+            <section class="panel panel-productos">
+              <h2>Productos</h2>
+
+              <!-- Filtros por sección -->
+              <div class="filtros-categorias">
+                <button class="btn-cat activo" data-cat="cafe_te">
+                  Café y Té
+                </button>
+                <button class="btn-cat activo" data-cat="bebidas_frias">
+                  Bebidas Frias
+                </button>
+                <button class="btn-cat" data-cat="dulces_pasteles">
+                  Dulces y Pasteles
+                </button>
+                <button class="btn-cat" data-cat="salados_otros">
+                  Salados y Otros
+                </button>
+              </div>
+
+              <!-- Lista de productos -->
+              <div id="lista-productos" class="lista-productos">
+                <!-- Se llena por JavaScript -->
+              </div>
+            </section>
+
+            <!-- Panel de comanda -->
+            <section class="panel panel-comanda">
+              <h2>Comanda actual</h2>
+
+              <div class="comanda-contenido">
+                <table class="tabla" id="tabla-comanda">
+                  <thead>
+                    <tr>
+                      <th>Producto</th>
+                      <th>Cant.</th>
+                      <th>P. Unit.</th>
+                      <th>Total</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="comanda-body">
+                    <!-- Filas de comanda generadas por JS -->
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="3" class="texto-derecha"><strong>Total a cobrar</strong></td>
+                      <td id="comanda-total" class="texto-derecha">$0</td>
+                      <td></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+
+              <div class="comanda-acciones">
+                <button id="btn-limpiar-comanda" class="btn btn-outline">
+                  Limpiar comanda
+                </button>
+                <button id="btn-confirmar-venta" class="btn btn-primario">
+                  Confirmar venta
+                </button>
+                <button id="btn-imprimir-comanda" class="btn btn-secundario">
+                  Imprimir comanda
+                </button>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <!-- ============================
+             VISTA: REPORTES DIARIOS
+        ============================= -->
+        <section id="vista-reportes" class="vista-interna oculto">
+          <div class="reportes-container">
+            <h2>Reportes diarios de ventas</h2>
+
+            <div class="reportes-filtros">
+              <div class="form-grupo">
+                <label for="reporte-fecha">Fecha del reporte</label>
+                <input type="date" id="reporte-fecha" />
+              </div>
+              <button id="btn-generar-reporte" class="btn btn-primario">
+                Generar reporte
+              </button>
+              <button id="btn-imprimir-reporte" class="btn btn-secundario">
+                Imprimir reporte
+              </button>
+            </div>
+
+            <div class="reporte-info">
+              <p><strong>Folio:</strong> <span id="reporte-folio">-</span></p>
+              <p><strong>Fecha:</strong> <span id="reporte-fecha-texto">-</span></p>
+              <p><strong>Total día:</strong> <span id="reporte-total-dia">$0</span></p>
+            </div>
+
+            <div class="reporte-tabla-wrapper">
+              <table class="tabla" id="tabla-reporte">
+                <thead>
+                  <tr>
+                    <th>Producto</th>
+                    <th>Cantidad total</th>
+                    <th>Total vendido</th>
+                  </tr>
+                </thead>
+                <tbody id="reporte-body">
+                  <!-- Se rellena con JS, ordenado de mayor a menor según cantidad -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </section>
+
+    <!-- ============================================
+         ÁREA ESPECIAL PARA IMPRESIÓN (COMANDA / REPORTE)
+    ============================================= -->
+    <section id="print-area" class="oculto">
+      <!-- El JS clona aquí comanda o reporte antes de llamar window.print() -->
+    </section>
+  </div>
+
+  <!-- ============================================
+       SCRIPTS
+  ============================================= -->
+  <script src="app.js"></script>
+</body>
+</html>
