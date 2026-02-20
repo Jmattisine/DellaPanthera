@@ -555,4 +555,45 @@ img {
     font-size: 0.95rem;
   }
 }
+/* ===================== FIX HEADER MOBILE (iPhone/Android) ===================== */
+
+/* Evitar scroll lateral si algo se desborda */
+html, body { overflow-x: hidden; }
+
+/* Permitir que flex-items realmente encojan */
+.main-header,
+.header-left,
+.header-nav,
+.header-actions { min-width: 0; }
+
+/* El header puede envolver (wrap) */
+@media (max-width: 600px) {
+  .main-header{
+    flex-wrap: wrap;           /* clave */
+    gap: 8px;
+    padding: 10px 12px;
+  }
+
+  /* Que nav y acciones bajen a segunda línea y se centren */
+  .header-nav,
+  .header-actions{
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;           /* clave */
+    gap: 8px;
+  }
+
+  /* Botones NO deben forzar ancho */
+  .btn,
+  .btn-nav{
+    max-width: 100%;
+    white-space: normal;       /* permite salto de línea si es necesario */
+    flex: 0 1 auto;            /* permite encoger */
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  /* Logo un poco más compacto */
+  .logo-text{ font-size: 15px; }
+}
 }
