@@ -844,7 +844,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (btnImprimirComanda) {
-    btnImprimirComanda.addEventListener("click", imprimirComanda);
+    btnImprimirComanda.addEventListener("click", imprimirComandaActual);
   }
 
   const btnCerrarDia = document.getElementById("btn-cerrar-dia");
