@@ -494,84 +494,63 @@ function generarReportePorFechaDesdeUI() {
 /* =========================================================
    IMPRESIÓN (COMANDA / REPORTE)
 ========================================================= */
-function imprimirComandaActual() {
-  if (!comandaItems.length) {
-    alert("No hay productos en la comanda para imprimir.");
-    return;
-  }
+function imprimirComanda() {
 
-  const totalComanda = comandaItems.reduce(
-    (acc, item) => acc + item.precio * item.cantidad,
-    0
-  );
+    const contenido = document.getElementById("print-area").innerHTML;
 
-  const printArea = document.getElementById("print-area");
-  printArea.innerHTML = "";
+    const ventana = window.open('', '', 'width=320,height=600');
 
-  const contenedor = document.createElement("div");
+    ventana.document.write(`
+        <html>
+        <head>
+            <title>Comanda</title>
+            <style>
+                body {
+                    width: 300px;
+                    margin: 0;
+                    padding: 10px;
+                    font-family: monospace;
+                    font-size: 14px;
+                }
 
-  const titulo = document.createElement("div");
-  titulo.classList.add("print-titulo");
-  titulo.textContent = "Della Panthera - Comanda";
-  contenedor.appendChild(titulo);
+                h2 {
+                    text-align: center;
+                    font-size: 18px;
+                    margin: 5px 0;
+                }
 
-  const fecha = document.createElement("div");
-  fecha.classList.add("print-subtitulo");
-  const ahora = new Date();
-  fecha.textContent = `Fecha: ${formatearFechaDDMMYYYY(
-    hoyISO()
-  )} - Hora: ${ahora.toTimeString().slice(0, 5)}`;
-  contenedor.appendChild(fecha);
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    font-size: 14px;
+                }
 
-  const detalle = document.createElement("div");
-  detalle.classList.add("print-detalle");
+                th, td {
+                    padding: 4px 0;
+                    text-align: left;
+                }
 
-  const tabla = document.createElement("table");
-  const thead = document.createElement("thead");
-  const trHead = document.createElement("tr");
-  ["Producto", "Cant.", "P. Unit.", "Total"].forEach((txt) => {
-    const th = document.createElement("th");
-    th.textContent = txt;
-    trHead.appendChild(th);
-  });
-  thead.appendChild(trHead);
-  tabla.appendChild(thead);
+                .total {
+                    font-size: 16px;
+                    font-weight: bold;
+                    text-align: right;
+                    margin-top: 10px;
+                }
 
-  const tbody = document.createElement("tbody");
-  comandaItems.forEach((item) => {
-    const tr = document.createElement("tr");
+                hr {
+                    border: none;
+                    border-top: 1px dashed black;
+                    margin: 8px 0;
+                }
+            </style>
+        </head>
+        <body onload="window.print(); window.close();">
+            ${contenido}
+        </body>
+        </html>
+    `);
 
-    const tdNombre = document.createElement("td");
-    tdNombre.textContent = item.nombre;
-    tr.appendChild(tdNombre);
-
-    const tdCant = document.createElement("td");
-    tdCant.textContent = item.cantidad;
-    tr.appendChild(tdCant);
-
-    const tdPrecio = document.createElement("td");
-    tdPrecio.textContent = formatearMoneda(item.precio);
-    tr.appendChild(tdPrecio);
-
-    const tdTotal = document.createElement("td");
-    tdTotal.textContent = formatearMoneda(item.precio * item.cantidad);
-    tr.appendChild(tdTotal);
-
-    tbody.appendChild(tr);
-  });
-  tabla.appendChild(tbody);
-  detalle.appendChild(tabla);
-
-  const totalDiv = document.createElement("div");
-  totalDiv.classList.add("print-total");
-  totalDiv.textContent = `Total a cobrar: ${formatearMoneda(totalComanda)}`;
-
-  detalle.appendChild(totalDiv);
-  contenedor.appendChild(detalle);
-
-  printArea.appendChild(contenedor);
-
-  window.print();
+    ventana.document.close();
 }
 
 function imprimirReporteActual() {
