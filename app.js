@@ -494,63 +494,144 @@ function generarReportePorFechaDesdeUI() {
 /* =========================================================
    IMPRESIÓN (COMANDA / REPORTE)
 ========================================================= */
-function imprimirComanda() {
+function imprimirComandaActual() {
+  if (!comandaItems || comandaItems.length === 0) {
+    alert("No hay productos en la comanda.");
+    return;
+  }
 
-    const contenido = document.getElementById("print-area").innerHTML;
+  // Construir filas
+  let total = 0;
+  const filas = comandaItems.map((it) => {
+    const totalFila = it.precio * it.cantidad;
+    total += totalFila;
 
-    const ventana = window.open('', '', 'width=320,height=600');
+    // Nota: escape básico para evitar romper HTML si hay caracteres raros
+    const nombre = String(it.nombre).replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-    ventana.document.write(`
-        <html>
-        <head>
-            <title>Comanda</title>
-            <style>
-                body {
-                    width: 300px;
-                    margin: 0;
-                    padding: 10px;
-                    font-family: monospace;
-                    font-size: 14px;
-                }
+    return `
+      <div class="row">
+        <div class="col nombre">${nombre}</div>
+        <div class="col cant">${it.cantidad}</div>
+        <div class="col pu">${formatearMoneda(it.precio)}</div>
+        <div class="col tot">${formatearMoneda(totalFila)}</div>
+      </div>
+    `;
+  }).join("");
 
-                h2 {
-                    text-align: center;
-                    font-size: 18px;
-                    margin: 5px 0;
-                }
+  const ahora = new Date();
+  const fecha = ahora.toLocaleDateString("es-CL");
+  const hora = ahora.toTimeString().slice(0, 5);
 
-                table {
-                    width: 100%;
-                    border-collapse: collapse;
-                    font-size: 14px;
-                }
+  const html = `
+  <!doctype html>
+  <html>
+    <head>
+      <meta charset="utf-8" />
+      <!-- CLAVE para Android/WebView -->
+      <meta name="viewport" content="width=320, initial-scale=1, maximum-scale=1, user-scalable=no" />
+      <title>Comanda</title>
+      <style>
+        /* ====== 80mm real ====== */
+        @page { size: 80mm auto; margin: 0; }
+        html, body {
+          width: 80mm !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          background: #fff;
+        }
 
-                th, td {
-                    padding: 4px 0;
-                    text-align: left;
-                }
+        /* Caja del ticket */
+        .ticket {
+          width: 80mm;
+          padding: 4mm 4mm;
+          box-sizing: border-box;
+          font-family: monospace;
+          -webkit-text-size-adjust: 100%;
+          text-size-adjust: 100%;
+        }
 
-                .total {
-                    font-size: 16px;
-                    font-weight: bold;
-                    text-align: right;
-                    margin-top: 10px;
-                }
+        .title {
+          text-align: center;
+          font-size: 16px;
+          font-weight: 700;
+          margin: 0 0 2mm 0;
+        }
 
-                hr {
-                    border: none;
-                    border-top: 1px dashed black;
-                    margin: 8px 0;
-                }
-            </style>
-        </head>
-        <body onload="window.print(); window.close();">
-            ${contenido}
-        </body>
-        </html>
-    `);
+        .meta {
+          font-size: 12px;
+          text-align: center;
+          margin-bottom: 2mm;
+        }
 
-    ventana.document.close();
+        .sep {
+          border-top: 1px dashed #000;
+          margin: 2mm 0;
+        }
+
+        /* Encabezado columnas */
+        .head, .row {
+          display: flex;
+          width: 100%;
+          font-size: 12px;
+          line-height: 1.2;
+        }
+        .head { font-weight: 700; margin-bottom: 1mm; }
+
+        /* Ajuste columnas para 80mm */
+        .col { box-sizing: border-box; }
+        .nombre { width: 44%; padding-right: 2mm; word-break: break-word; }
+        .cant   { width: 10%; text-align: right; }
+        .pu     { width: 22%; text-align: right; padding-left: 2mm; }
+        .tot    { width: 24%; text-align: right; padding-left: 2mm; }
+
+        .total {
+          font-size: 14px;
+          font-weight: 700;
+          text-align: right;
+          margin-top: 2mm;
+        }
+
+        /* Evita que Android “reduzca” */
+        * { max-width: 80mm !important; }
+
+      </style>
+    </head>
+    <body>
+      <div class="ticket">
+        <div class="title">Della Panthera - Comanda</div>
+        <div class="meta">${fecha} ${hora}</div>
+
+        <div class="sep"></div>
+
+        <div class="head">
+          <div class="col nombre">Producto</div>
+          <div class="col cant">Cant</div>
+          <div class="col pu">P.Unit</div>
+          <div class="col tot">Total</div>
+        </div>
+
+        ${filas}
+
+        <div class="sep"></div>
+        <div class="total">Total a cobrar: ${formatearMoneda(total)}</div>
+      </div>
+
+      <script>
+        // Espera un pelín para que WebView renderice y no calcule mal el tamaño
+        setTimeout(() => {
+          window.print();
+          window.close();
+        }, 300);
+      </script>
+    </body>
+  </html>
+  `;
+
+  const w = window.open("about:blank", "_blank", "width=360,height=700");
+  w.document.open();
+  w.document.write(html);
+  w.document.close();
 }
 
 function imprimirReporteActual() {
@@ -763,7 +844,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (btnImprimirComanda) {
-    btnImprimirComanda.addEventListener("click", imprimirComandaActual);
+    btnImprimirComanda.addEventListener("click", imprimirComanda);
   }
 
   const btnCerrarDia = document.getElementById("btn-cerrar-dia");
