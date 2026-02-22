@@ -495,143 +495,154 @@ function generarReportePorFechaDesdeUI() {
    IMPRESIÓN (COMANDA / REPORTE)
 ========================================================= */
 function imprimirComandaActual() {
-  if (!comandaItems || comandaItems.length === 0) {
-    alert("No hay productos en la comanda.");
-    return;
-  }
+  try {
+    if (!comandaItems || comandaItems.length === 0) {
+      alert("No hay productos en la comanda.");
+      return;
+    }
 
-  // Construir filas
-  let total = 0;
-  const filas = comandaItems.map((it) => {
-    const totalFila = it.precio * it.cantidad;
-    total += totalFila;
+    // Construir filas
+    let total = 0;
+    const filas = comandaItems.map((it) => {
+      const totalFila = it.precio * it.cantidad;
+      total += totalFila;
 
-    // Nota: escape básico para evitar romper HTML si hay caracteres raros
-    const nombre = String(it.nombre).replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      const nombre = String(it.nombre)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
 
-    return `
-      <div class="row">
-        <div class="col nombre">${nombre}</div>
-        <div class="col cant">${it.cantidad}</div>
-        <div class="col pu">${formatearMoneda(it.precio)}</div>
-        <div class="col tot">${formatearMoneda(totalFila)}</div>
-      </div>
-    `;
-  }).join("");
-
-  const ahora = new Date();
-  const fecha = ahora.toLocaleDateString("es-CL");
-  const hora = ahora.toTimeString().slice(0, 5);
-
-  const html = `
-  <!doctype html>
-  <html>
-    <head>
-      <meta charset="utf-8" />
-      <!-- CLAVE para Android/WebView -->
-      <meta name="viewport" content="width=320, initial-scale=1, maximum-scale=1, user-scalable=no" />
-      <title>Comanda</title>
-      <style>
-        /* ====== 80mm real ====== */
-        @page { size: 80mm auto; margin: 0; }
-        html, body {
-          width: 80mm !important;
-          margin: 0 !important;
-          padding: 0 !important;
-          background: #fff;
-        }
-
-        /* Caja del ticket */
-        .ticket {
-          width: 80mm;
-          padding: 4mm 4mm;
-          box-sizing: border-box;
-          font-family: monospace;
-          -webkit-text-size-adjust: 100%;
-          text-size-adjust: 100%;
-        }
-
-        .title {
-          text-align: center;
-          font-size: 16px;
-          font-weight: 700;
-          margin: 0 0 2mm 0;
-        }
-
-        .meta {
-          font-size: 12px;
-          text-align: center;
-          margin-bottom: 2mm;
-        }
-
-        .sep {
-          border-top: 1px dashed #000;
-          margin: 2mm 0;
-        }
-
-        /* Encabezado columnas */
-        .head, .row {
-          display: flex;
-          width: 100%;
-          font-size: 12px;
-          line-height: 1.2;
-        }
-        .head { font-weight: 700; margin-bottom: 1mm; }
-
-        /* Ajuste columnas para 80mm */
-        .col { box-sizing: border-box; }
-        .nombre { width: 44%; padding-right: 2mm; word-break: break-word; }
-        .cant   { width: 10%; text-align: right; }
-        .pu     { width: 22%; text-align: right; padding-left: 2mm; }
-        .tot    { width: 24%; text-align: right; padding-left: 2mm; }
-
-        .total {
-          font-size: 14px;
-          font-weight: 700;
-          text-align: right;
-          margin-top: 2mm;
-        }
-
-        /* Evita que Android “reduzca” */
-        * { max-width: 80mm !important; }
-
-      </style>
-    </head>
-    <body>
-      <div class="ticket">
-        <div class="title">Della Panthera - Comanda</div>
-        <div class="meta">${fecha} ${hora}</div>
-
-        <div class="sep"></div>
-
-        <div class="head">
-          <div class="col nombre">Producto</div>
-          <div class="col cant">Cant</div>
-          <div class="col pu">P.Unit</div>
-          <div class="col tot">Total</div>
+      return `
+        <div class="row">
+          <div class="col nombre">${nombre}</div>
+          <div class="col cant">${it.cantidad}</div>
+          <div class="col pu">${formatearMoneda(it.precio)}</div>
+          <div class="col tot">${formatearMoneda(totalFila)}</div>
         </div>
+      `;
+    }).join("");
 
-        ${filas}
+    const ahora = new Date();
+    const fecha = ahora.toLocaleDateString("es-CL");
+    const hora = ahora.toTimeString().slice(0, 5);
 
-        <div class="sep"></div>
-        <div class="total">Total a cobrar: ${formatearMoneda(total)}</div>
-      </div>
+    // HTML del ticket (80mm)
+    const ticketHTML = `
+      <!doctype html>
+      <html>
+      <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=320, initial-scale=1" />
+        <title>Comanda</title>
+        <style>
+          @page { size: 80mm auto; margin: 0; }
+          html, body {
+            width: 80mm !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            background: #fff;
+          }
+          .ticket {
+            width: 80mm;
+            padding: 4mm 4mm;
+            box-sizing: border-box;
+            font-family: monospace;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+          }
+          .title {
+            text-align: center;
+            font-size: 16px;
+            font-weight: 700;
+            margin: 0 0 2mm 0;
+          }
+          .meta {
+            font-size: 12px;
+            text-align: center;
+            margin-bottom: 2mm;
+          }
+          .sep {
+            border-top: 1px dashed #000;
+            margin: 2mm 0;
+          }
+          .head, .row {
+            display: flex;
+            width: 100%;
+            font-size: 12px;
+            line-height: 1.2;
+          }
+          .head { font-weight: 700; margin-bottom: 1mm; }
+          .col { box-sizing: border-box; }
+          .nombre { width: 44%; padding-right: 2mm; word-break: break-word; }
+          .cant   { width: 10%; text-align: right; }
+          .pu     { width: 22%; text-align: right; padding-left: 2mm; }
+          .tot    { width: 24%; text-align: right; padding-left: 2mm; }
+          .total {
+            font-size: 14px;
+            font-weight: 700;
+            text-align: right;
+            margin-top: 2mm;
+          }
+          * { max-width: 80mm !important; }
+        </style>
+      </head>
+      <body>
+        <div class="ticket">
+          <div class="title">Della Panthera - Comanda</div>
+          <div class="meta">${fecha} ${hora}</div>
 
-      <script>
-        // Espera un pelín para que WebView renderice y no calcule mal el tamaño
-        setTimeout(() => {
-          window.print();
-          window.close();
-        }, 300);
-      </script>
-    </body>
-  </html>
-  `;
+          <div class="sep"></div>
 
-  const w = window.open("about:blank", "_blank", "width=360,height=700");
-  w.document.open();
-  w.document.write(html);
-  w.document.close();
+          <div class="head">
+            <div class="col nombre">Producto</div>
+            <div class="col cant">Cant</div>
+            <div class="col pu">P.Unit</div>
+            <div class="col tot">Total</div>
+          </div>
+
+          ${filas}
+
+          <div class="sep"></div>
+          <div class="total">Total a cobrar: ${formatearMoneda(total)}</div>
+        </div>
+      </body>
+      </html>
+    `;
+
+    // ✅ Imprimir SIN popup usando iframe oculto
+    const oldFrame = document.getElementById("print-frame");
+    if (oldFrame) oldFrame.remove();
+
+    const iframe = document.createElement("iframe");
+    iframe.id = "print-frame";
+    iframe.style.position = "fixed";
+    iframe.style.right = "0";
+    iframe.style.bottom = "0";
+    iframe.style.width = "0";
+    iframe.style.height = "0";
+    iframe.style.border = "0";
+    document.body.appendChild(iframe);
+
+    const doc = iframe.contentWindow.document;
+    doc.open();
+    doc.write(ticketHTML);
+    doc.close();
+
+    // Espera a que cargue antes de imprimir
+    iframe.onload = () => {
+      setTimeout(() => {
+        iframe.contentWindow.focus();
+        iframe.contentWindow.print();
+
+        // limpiar el iframe después (no rompe nada)
+        setTimeout(() => iframe.remove(), 1000);
+      }, 200);
+    };
+
+  } catch (err) {
+    console.error("Error al imprimir comanda:", err);
+    alert("Error al imprimir la comanda. Revisa la consola (F12).");
+  }
 }
 
 function imprimirReporteActual() {
