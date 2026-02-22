@@ -596,4 +596,69 @@ html, body { overflow-x: hidden; }
   /* Logo un poco más compacto */
   .logo-text{ font-size: 15px; }
 }
+/* ===================== PRINT TICKET 80mm ===================== */
+@media print {
+  /* 80mm roll */
+  @page {
+    size: 80mm auto;
+    margin: 0;
+  }
+
+  html, body {
+    width: 80mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+    overflow: visible !important;
+  }
+
+  /* Ocultar todo excepto el área de impresión */
+  #login-section, .main-header, .main-content, #app > *:not(#print-area) {
+    display: none !important;
+  }
+
+  /* Área imprimible */
+  #print-area {
+    display: block !important;
+    width: 80mm !important;
+    margin: 0 !important;
+    padding: 6mm 4mm !important; /* margen interno del ticket */
+    box-shadow: none !important;
+    border: none !important;
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  /* Tipografía y tamaños “térmica” */
+  #print-area, #print-area * {
+    font-family: Arial, sans-serif !important;
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+    box-shadow: none !important;
+  }
+
+  /* Tablas del ticket */
+  #print-area table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    table-layout: fixed !important; /* evita que se desborde */
+  }
+
+  #print-area th, #print-area td {
+    padding: 2px 0 !important;
+    border-bottom: 1px dashed #999 !important; /* estilo ticket */
+    word-break: break-word !important;
+  }
+
+  /* Evitar cortes feos */
+  #print-area tr {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Ocultar botones si aparecen dentro del print-area */
+  button, .btn, .no-print {
+    display: none !important;
+  }
+}
 }
